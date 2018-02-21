@@ -1,0 +1,14 @@
+#start MySQL container
+sudo docker run -p 3306:3306 --name ng-mysql -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+
+
+#start php container connected to mysql container
+sudo docker run -it --name ng-php -d --link ng-mysql:mysql --rm -p80:80 -v /var/www/html/:/var/www/html/ ng/php5-apache-composer:latest
+
+sudo docker run -it --name ng-phpmyadmin -d --link ng-mysql:mysql --rm -p 8080:80 phpmyadmin/phpmyadmin
+
+
+#php container bash
+sudo docker exec -it  ng-php bash
+======================================================================================================================
+

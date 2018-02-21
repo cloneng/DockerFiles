@@ -1,0 +1,25 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: ng-mysql
+        ports: 
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+    php:
+        image: ng/php5-apache-composer
+        container_name: ng-php
+        ports:
+            - 80:80
+        links: 
+            - mysql:mysql
+        volumes:
+            - /home/thebest/Desktop/Projects/Laravel_5_4/html:/var/www/html
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: ng-phpmyadmin
+        links: 
+            - mysql:db
+        ports:
+            - 8080:80
