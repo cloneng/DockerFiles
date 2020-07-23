@@ -1,0 +1,14 @@
+FROM php:7.4-apache
+
+RUN apt-get update && apt-get install -y libmcrypt-dev \
+	libonig-dev \
+	git \
+	unzip \
+	zip \
+	libzip-dev \
+	&& docker-php-ext-install pdo_mysql zip
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN composer global require laravel/installer
+RUN chmod +x /root/.composer/vendor/bin/laravel
+RUN ln -s /root/.composer/vendor/bin/laravel /usr/bin/laravel
